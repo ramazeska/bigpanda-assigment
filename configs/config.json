@@ -1,0 +1,7 @@
+{
+  "image_resources": "https://s3.eu-central-1.amazonaws.com/devops-exercise/pandapics.tar.gz",
+  "app_git": "https://github.com/bigpandaio/ops-exercise",
+  "image_path": "/tmp/appImages",
+  "tmpzip": "/tmp/pandapics.tar.gz"
+
+}

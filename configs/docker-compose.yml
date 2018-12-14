@@ -1,0 +1,44 @@
+version: "3"
+services:
+  db:
+    build:
+      context: ./ops-exercise/db
+      dockerfile: Dockerfile
+    image: pandadb
+    ports:
+      - 27017:27017
+      - 27018:27018
+    expose:
+    - 27017
+    - 27018
+    networks:
+      test_net:
+        aliases:
+        - db
+  app:
+    build:
+      context: ./ops-exercise
+      dockerfile: Dockerfile
+    image: panda-app
+    volumes:
+      - $IMAGES_PATH:/opt/app/public/images
+    ports:
+      - 3000:3000
+    expose:
+    - 3000
+    healthcheck:
+      test: curl -Is localhost:3000/health | head -1 | grep -c 200 || exit 1
+      interval: 45s
+      timeout: 10s
+      retries: 3
+
+    networks:
+      test_net:
+        aliases:
+        - app
+    depends_on:
+      - db
+
+networks:
+  test_net:
+    driver: bridge
